@@ -6,8 +6,6 @@ Upload a resume and MockerAI extracts your skills, roles and projects, suggests 
 
 Everything runs on your machine: Whisper for speech-to-text, Llama 3.1 8B through Ollama for extraction, question generation and scoring. No resume or recording leaves the computer.
 
-**Try it:** the UI is hosted at [yutrix12.github.io/AI-Mock-interviewer](https://yutrix12.github.io/AI-Mock-interviewer/). It connects to a backend on your own computer, so start the backend first (steps 1 and 2 under [Running it](#running-it)); you can skip the frontend step. If the browser asks to let the site access devices on your local network, allow it.
-
 ## Features
 
 - **Resume parsing**: PDF, DOCX and TXT. LLM extraction into a typed schema, backed by a skill taxonomy that normalises names ("reactjs", "Postgres", "AWS (EC2, S3)") and still finds skills by keyword if the model is unavailable.
@@ -75,8 +73,6 @@ npm run dev                     # http://localhost:5173
 ```
 
 On Windows, set `PYTHONUTF8=1` if the console can't print Unicode log messages.
-
-The backend accepts requests from the local dev server and from the hosted UI on GitHub Pages. To serve the UI from somewhere else, add its origin to `CORS_ORIGINS` (comma-separated). Pushes to `main` that touch `frontend/` redeploy the hosted UI through GitHub Actions.
 
 Configuration uses environment variables: `OLLAMA_MODEL` (default `llama3.1:8b`), `OLLAMA_URL`, `WHISPER_MODEL` (default `small.en`), `WHISPER_DEVICE` (`auto`, `cuda` or `cpu`), `LLM_CONTEXT`, `MAX_UPLOAD_MB`, and `VITE_API_URL` for the frontend.
 
