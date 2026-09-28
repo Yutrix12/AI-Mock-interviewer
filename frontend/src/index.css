@@ -1,0 +1,528 @@
+/*
+  MockerAI design tokens.
+  Editorial language: warm paper, near-black ink, one signal accent.
+  Type: Instrument Serif (display), Inter Tight (UI), JetBrains Mono (labels).
+  Radius rule: interactive controls are pills, panels 20px, inner elements 12px.
+  Dark sections swap the same tokens via .section-dark.
+*/
+:root {
+  color-scheme: light dark;
+
+  /* Palette: Pantone P 105-8 C (navy ink), P 48-8 C (signal red), 938 C (butter highlighter). */
+  --canvas: #fbf6e3;
+  --canvas-alt: #f4ead0;
+  --surface: #fffdf5;
+  --ink: #293f76;
+  --ink-muted: rgb(41 63 118 / 0.74);
+  --ink-faint: rgb(41 63 118 / 0.48);
+  --line: rgb(41 63 118 / 0.14);
+  --line-strong: rgb(41 63 118 / 0.26);
+
+  /* Red on cream for display type and decoration; buttons use the same red (white text 5.5:1). */
+  --accent: #d62e2f;
+  --accent-strong: #d62e2f;
+  --accent-hover: #b82526;
+  --accent-text: #b82526;
+  --accent-soft: #fceea8;
+  --on-accent: #ffffff;
+  --glow: 214 46 47;
+  --shade: 27 40 82;
+
+  --good: #2f7a4b;
+  --fair: #a85a06;
+  --low: #a61e22;
+  --rec: #d62e2f;
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Inter Tight Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  --r-pill: 999px;
+  --r-panel: 20px;
+  --r-inner: 12px;
+
+  --header-h: 92px;
+  --gutter: clamp(1rem, 4vw, 7.5rem);
+  --max: 1200px;
+
+  --z-header: 20;
+  --z-overlay: 30;
+  --z-cursor: 40;
+  --z-skip: 50;
+  --z-splash: 60;
+}
+
+/* Always-light islands (the hero) keep the light tokens even when the page is in dark mode,
+   so the red accent and navy ink stay readable on their cream backgrounds. */
+.surface-light {
+  --canvas: #fbf6e3;
+  --canvas-alt: #f4ead0;
+  --surface: #fffdf5;
+  --ink: #293f76;
+  --ink-muted: rgb(41 63 118 / 0.74);
+  --ink-faint: rgb(41 63 118 / 0.48);
+  --line: rgb(41 63 118 / 0.14);
+  --line-strong: rgb(41 63 118 / 0.26);
+  --accent: #d62e2f;
+  --accent-text: #b82526;
+  --accent-soft: #fceea8;
+  --glow: 214 46 47;
+  --shade: 27 40 82;
+  color-scheme: light;
+}
+
+/* Dark sections re-define the tokens locally. */
+.section-dark {
+  --canvas: #111c3a;
+  --canvas-alt: #1a2a55;
+  --surface: #15224a;
+  --ink: #fbf6e3;
+  --ink-muted: rgb(251 246 227 / 0.7);
+  --ink-faint: rgb(251 246 227 / 0.42);
+  --line: rgb(251 246 227 / 0.15);
+  --line-strong: rgb(251 246 227 / 0.28);
+  /* Red on navy fails contrast, so dark surfaces use the butter yellow as their accent. */
+  --accent: #fceea8;
+  --accent-text: #fceea8;
+  --accent-soft: rgb(252 238 168 / 0.12);
+  --glow: 252 238 168;
+  --shade: 4 8 22;
+  --good: #7fd6a0;
+  --fair: #f5c26b;
+  --low: #ff8f8a;
+  --rec: #ff6b66;
+  background-color: var(--canvas);
+  color: var(--ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #111c3a;
+    --canvas-alt: #1a2a55;
+    --surface: #15224a;
+    --ink: #fbf6e3;
+    --ink-muted: rgb(251 246 227 / 0.7);
+    --ink-faint: rgb(251 246 227 / 0.42);
+    --line: rgb(251 246 227 / 0.15);
+    --line-strong: rgb(251 246 227 / 0.28);
+    /* Red on navy fails contrast, so dark surfaces use the butter yellow as their accent. */
+    --accent: #fceea8;
+    --accent-text: #fceea8;
+    --accent-soft: rgb(252 238 168 / 0.12);
+    --glow: 252 238 168;
+    --shade: 4 8 22;
+    --good: #7fd6a0;
+    --fair: #f5c26b;
+    --low: #ff8f8a;
+    --rec: #ff6b66;
+  }
+
+  /* On an already-dark page, dark sections sink slightly deeper instead of disappearing. */
+  .section-dark {
+    --canvas: #0b1430;
+    --canvas-alt: #132247;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Keep keyboard-focused elements clear of the fixed header. */
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1vw, 1.0625rem);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+p,
+ol,
+ul,
+dl,
+figure,
+blockquote {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+em {
+  font-style: italic;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+[tabindex='-1']:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Fine film grain for a paper feel. Fixed and non-interactive, so it never repaints on scroll. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Double bezel: the panel sits in a thin tinted tray, like glass in a machined frame. */
+.bezel {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    0 0 0 6px color-mix(in oklab, var(--ink) 4%, transparent),
+    0 0 0 7px var(--line),
+    0 40px 80px -50px rgb(var(--shade) / 0.35);
+}
+
+.section-dark .bezel,
+.bezel.section-dark {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 0 0 6px rgb(255 255 255 / 0.03),
+    0 0 0 7px var(--line);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bezel {
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.06),
+      0 0 0 6px rgb(255 255 255 / 0.03),
+      0 0 0 7px var(--line);
+  }
+}
+
+/* Type helpers */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.04;
+}
+
+.display em,
+.accent-em {
+  color: var(--accent);
+  font-style: italic;
+  padding-right: 0.04em;
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: var(--z-skip);
+  padding: 0.625rem 1rem;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--canvas);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 0.3s var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* Link with an accent underline that wipes in. */
+.link-wipe {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.link-wipe > span:first-child {
+  position: relative;
+}
+
+.link-wipe > span:first-child::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease);
+}
+
+.link-wipe:hover > span:first-child::after,
+.link-wipe:focus-visible > span:first-child::after,
+.link-wipe[aria-current='true'] > span:first-child::after {
+  transform: scaleX(1);
+}
+
+.link-wipe svg {
+  width: 1em;
+  height: 1em;
+  transition: transform 0.4s var(--ease);
+}
+
+.link-wipe:hover svg {
+  transform: translateX(3px);
+}
+
+.link-wipe:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.375rem;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  background: transparent;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.btn svg {
+  width: 1.05em;
+  height: 1.05em;
+  flex-shrink: 0;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-lg {
+  padding: 1rem 1.625rem;
+  font-size: 1rem;
+}
+
+/* Button-in-button: the trailing icon lives in its own circle, flush with the right edge. */
+.btn-has-icon {
+  padding-right: 0.4rem;
+}
+
+.btn-lg.btn-has-icon {
+  padding-right: 0.45rem;
+}
+
+.btn-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.5rem;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.18);
+  transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.btn-lg .btn-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.btn-secondary .btn-icon {
+  background: color-mix(in oklab, var(--ink) 8%, transparent);
+}
+
+.btn:hover:not(:disabled) .btn-icon {
+  transform: translate(2px, -1px) scale(1.06);
+}
+
+.btn-primary {
+  background: var(--accent-strong);
+  color: var(--on-accent);
+  box-shadow: 0 10px 30px -12px rgb(var(--glow) / 0.45);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: 0 14px 34px -12px rgb(var(--glow) / 0.55);
+}
+
+.btn-ink {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.btn-ink:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--ink) 85%, var(--accent));
+}
+
+.btn-secondary {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--ink);
+  background: var(--canvas-alt);
+}
+
+.btn-quiet {
+  padding: 0.5rem 0.875rem;
+  color: var(--ink-muted);
+}
+
+.btn-quiet:hover:not(:disabled),
+.btn-quiet[aria-pressed='true'] {
+  color: var(--ink);
+}
+
+.btn-quiet:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--ink) 7%, transparent);
+}
+
+.btn-link {
+  padding: 0.5rem 0.625rem;
+  color: var(--ink-muted);
+}
+
+.btn-link:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+/* Outlined mono tag, used for skills and metadata. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

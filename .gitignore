@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Tooling output
+.playwright-cli/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Demo recordings (large binaries)
+demo/

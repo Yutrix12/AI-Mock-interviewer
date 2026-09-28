@@ -1,0 +1,28 @@
+Arjun Mehta
+Full-stack developer | arjun.mehta.dev@example.com | github.com/arjunmehta-dev
+
+SUMMARY
+Full-stack developer with 2.5 years of experience building React front ends and Python/Node.js services. Enjoys performance work and developer tooling.
+
+SKILLS
+Languages: TypeScript, JavaScript, Python, SQL
+Frontend: React, Next.js, Redux, Tailwind CSS
+Backend: Node.js, Express, FastAPI, REST APIs, GraphQL
+Data & infrastructure: PostgreSQL, Redis, Docker, AWS (EC2, S3, Lambda), GitHub Actions
+
+EXPERIENCE
+Software Engineer, Kestrel Logistics (Jan 2024 - present)
+- Rebuilt the shipment-tracking dashboard in Next.js, cutting initial load time from 4.1s to 1.6s.
+- Designed a FastAPI service that aggregates carrier webhooks, handling about 1.2M events per day.
+- Introduced Redis caching for rate quotes, reducing p95 API latency by 58%.
+
+Software Engineering Intern, Brightlane Fintech (Jun 2023 - Dec 2023)
+- Built internal React components for the loan-review tool used by 40 underwriters.
+- Wrote PostgreSQL migrations and fixed N+1 query issues in an Express API.
+
+PROJECTS
+DevPulse - a GitHub Actions dashboard (React, Node.js, GraphQL) that flags slow and flaky CI jobs across repositories. 900+ stars on GitHub.
+SplitKit - a bill-splitting PWA with offline sync (React, IndexedDB, Express) used by around 3,000 monthly users.
+
+EDUCATION
+B.E. Computer Engineering, Pune University, 2023
