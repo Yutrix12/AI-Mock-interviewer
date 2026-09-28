@@ -20,7 +20,10 @@ class Settings:
     whisper_device: str = field(default_factory=lambda: os.environ.get("WHISPER_DEVICE", "auto"))
 
     max_upload_mb: int = field(default_factory=lambda: int(os.environ.get("MAX_UPLOAD_MB", "5")))
+    # The hosted UI on GitHub Pages talks to this backend running on the visitor's machine.
     cors_origins: list[str] = field(
-        default_factory=lambda: _env_list("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+        default_factory=lambda: _env_list(
+            "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,https://yutrix12.github.io"
+        )
     )
     port: int = field(default_factory=lambda: int(os.environ.get("PORT", "5000")))

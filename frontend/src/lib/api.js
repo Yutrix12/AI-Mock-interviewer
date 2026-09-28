@@ -39,6 +39,10 @@ async function request(path, { json, form, signal, method = 'POST' } = {}) {
 }
 
 export const api = {
+  health(signal) {
+    return request('/api/health', { method: 'GET', signal })
+  },
+
   parseResume(file, signal) {
     const form = new FormData()
     form.append('resume', file)

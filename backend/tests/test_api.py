@@ -29,6 +29,21 @@ def test_health(client):
     assert body["llm"]["reachable"] and body["transcriber"]["state"] == "ready"
 
 
+def test_hosted_ui_can_reach_local_backend(client):
+    origin = "https://yutrix12.github.io"
+    preflight = client.options(
+        "/api/resume",
+        headers={
+            "Origin": origin,
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Private-Network": "true",
+        },
+    )
+    assert preflight.headers["Access-Control-Allow-Origin"] == origin
+    assert preflight.headers["Access-Control-Allow-Private-Network"] == "true"
+    assert "Access-Control-Allow-Origin" not in client.get("/api/health", headers={"Origin": "https://evil.example"}).headers
+
+
 def test_resume_upload_returns_profile_and_tracks(client):
     response = _upload(client)
     assert response.status_code == 200

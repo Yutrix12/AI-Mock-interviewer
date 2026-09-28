@@ -50,7 +50,8 @@ def create_app(settings: Settings | None = None, llm: LLM | None = None, transcr
     settings = settings or Settings()
     app = Flask(__name__)
     app.config["MAX_CONTENT_LENGTH"] = settings.max_upload_mb * 1024 * 1024 * 4  # audio can exceed resume size
-    CORS(app, origins=settings.cors_origins)
+    # allow_private_network answers the preflight browsers send before a public site calls 127.0.0.1.
+    CORS(app, origins=settings.cors_origins, allow_private_network=True)
 
     if llm is None:
         llm = OllamaClient(settings.ollama_url, settings.ollama_model, settings.llm_timeout, settings.llm_context)
